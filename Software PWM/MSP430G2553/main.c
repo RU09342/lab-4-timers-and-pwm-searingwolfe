@@ -32,7 +32,7 @@ void main (void)
 #pragma vector=PORT1_VECTOR
 __interrupt void Port_1(void) {
 			count++;
-				switch( count )
+				switch( count )  //cycle between 1 of 10 PWM duty cycles
 				{
 				case 1: D = 200;
 				TA0CCR1 = ( 1000 * (D/1000) );
