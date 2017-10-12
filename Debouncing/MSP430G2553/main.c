@@ -1,66 +1,62 @@
-
 #include <msp430g2253.h>
 
-volatile int Half_Mil_Sec = 0;
-volatile long Mil_Sec = 0;
-
+volatile int halfsecond = 0; //both halfsecond and second used for watchdog control
+volatile long second = 0; //long = large int value
 long lastDebounceTime = 0;  // the last time the output pin was toggled
 long debounceDelay = 10;    // the debounce time; increase if the output flickers
 int switchState;
 int lastswitchState = 0;   // the previous reading from the input pin
 
-long Mils_Count(void);
-
+//Debouncing
+long Counter(void); //initialize
 int main(void) {
 	
-	/*** Watchdog timer and clock Set-Up ***/
-	WDTCTL = WDT_MDLY_0_5;		// Watchdog timer 0.5ms
-	IE1 |= WDTIE;				// Watchdog interrupt enable
-	BCSCTL1 = CALBC1_1MHZ;		// Set range
-	DCOCTL = CALDCO_1MHZ;		// Set DCO step + modulation
+	WDTCTL = WDT_MDLY_0_5; // Watchdog timer 0.5ms
+	IE1 |= WDTIE; // Watchdog interrupt enable
+	//PM5CTL0 &= ~LOCKLPM5; // Disable GPIO power-on default high-impedance mode to activate configured port settings
+	//BCSCTL1 = CALBC1_1MHZ; // Set range. 1MHz default.
+	//DCOCTL = CALDCO_1MHZ; // Set DCO step + modulation
 
-	/*** GPIO Set-Up ***/
-	P1DIR |= BIT0;
+	P1DIR |= BIT0; //led setup
 	P1OUT &= ~BIT0;
-	P1DIR &= ~BIT3;
+	P1DIR &= ~BIT3; //button setup
 	P1REN |= BIT3;
 
-    _BIS_SR(GIE);             // Enter Low power mode 0 with interrupts enabled
-
-	while (1)
-	{
-		int reading;
-		int temp;
-		temp = (P1IN & BIT3);
-		if (temp == 0x0008) {
-			reading = 1;}
+    _bis_SR_register(GIE); // Enter Low power mode 0 with interrupts enabled
+    //or use _BIS_SR(GIE);
+	while (1) {
+		int reading; //initialize if-statement variable
+		if ((P1IN & BIT3)==BIT3) { //when button is not pressed
+			reading = 1;
+		}
+		else { //if button is pressed
+			reading = 0;
+		}
+		if (reading != lastswitchState) { //usually true, set lastdebouncetime as the value from counter block
+			lastDebounceTime = Counter(); 
+		}
+		if ((Counter() - lastDebounceTime) > debounceDelay) { //set the current switchstate to reading variable
+			switchState = reading; 
+		}
+		if (switchState == 1) { //anytime switchstate is 1, turn on LED, on by default
+			P1OUT |= BIT0; 
+		}
 		else {
-			reading = 0;}
-
-		if (reading != lastswitchState) {
-			lastDebounceTime = Mils_Count();}
-
-		if ((Mils_Count() - lastDebounceTime) > debounceDelay) {
-			switchState = reading;}
-
-		if (switchState == 1) {
-			P1OUT |= BIT0;}
-		else {
-			P1OUT &= ~BIT0;}
-
-		lastswitchState = reading;
+			P1OUT &= ~BIT0; //as soon as switchstate is not 1, turn off LED
+		}
+		lastswitchState = reading; //make lastswitchstate equal to reading when none of if-statements are true
 	}
 }
-#pragma vector=WDT_VECTOR				// Watchdog Timer interrupt service routine
+#pragma vector=WDT_VECTOR //watchdog interrupt
   __interrupt void watchdog_timer(void) {
-	  Half_Mil_Sec++;
-	  if (Half_Mil_Sec == 2){
-		  Mil_Sec++;
-		  Half_Mil_Sec = 0;
+	  halfsecond++; //increment after each watchdog interrupt
+	  if (halfsecond == 2){ //setting the interrupt delay
+		  second++; //increment variable only when halfsecond = 2
+		  halfsecond = 0; //reset watchdog halfsecond interrupt value to 0
 	  }
 }
-long Mils_Count(void)					// Based on the millis() Arduino function
+long Counter(void) //addressasble count variable outside of interrupt block
 {
-	 long Count = Mil_Sec;
+	 long Count = second; //set the current Count equal to second
 	 return Count;
 }
