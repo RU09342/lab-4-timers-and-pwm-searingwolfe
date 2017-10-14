@@ -37,64 +37,64 @@ __interrupt void Port_1(void) {
 				{
 				case 1: D = 200;
 				TA1CCR1 = ( 1000 * (D/1000) );
-								TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
+						TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
 						P1IFG &= ~BIT1;              // P1.3 IFG cleared
 						//P1IES ^= BIT3;         			// toggle the interrupt edge,
 					break;
 				case 2: D = 300;
 				TA1CCR1 = ( 1000 * (D/1000) );
-								TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
+						TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
 						P1IFG &= ~BIT1;              // P1.3 IFG cleared
 						//P1IES ^= BIT3;         			// toggle the interrupt edge,
 					break;
 				case 3: D = 400;
 				TA1CCR1 = ( 1000 * (D/1000) );
-								TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
+						TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
 						P1IFG &= ~BIT1;              // P1.3 IFG cleared
 						//P1IES ^= BIT3;         			// toggle the interrupt edge,
 					break;
 				case 4: D = 500;
 				TA1CCR1 = ( 1000 * (D/1000) );
-								TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
+						TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
 						P1IFG &= ~BIT1;              // P1.3 IFG cleared
 						//P1IES ^= BIT3;         			// toggle the interrupt edge,
 					break;
 				case 5: D = 600;
 				TA1CCR1 = ( 1000 * (D/1000) );
-								TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
+						TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
 						P1IFG &= ~BIT1;              // P1.3 IFG cleared
 						//P1IES ^= BIT3;         			// toggle the interrupt edge,
 					break;
 				case 6: D = 700;
 				TA1CCR1 = ( 1000 * (D/1000) );
-								TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
+						TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
 						P1IFG &= ~BIT1;              // P1.3 IFG cleared
 						//P1IES ^= BIT3;         			// toggle the interrupt edge,
 					break;
 				case 7: D = 800;
 				TA1CCR1 = ( 1000 * (D/1000) );
-								TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
+						TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
 						P1IFG &= ~BIT1;              // P1.3 IFG cleared
 						//P1IES ^= BIT3;         			// toggle the interrupt edge,
 					break;
 				case 8: D = 900;
 				TA1CCR1 = ( 1000 * (D/1000) );
-								TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
+						TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
 						P1IFG &= ~BIT1;              // P1.3 IFG cleared
 						//P1IES ^= BIT3;         			// toggle the interrupt edge,
 					break;
 				case 9: D = 1000;
 				TA1CCR1 = ( 1000 * (D/1000) );
-								TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
+						TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
 						P1IFG &= ~BIT1;              // P1.3 IFG cleared
 						//P1IES ^= BIT3;         			// toggle the interrupt edge,
 					break;
 				default : D = 0;
 				TA1CCR1 = ( 1000 * (D/1000) );
-								TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
-						  P1IFG &= ~BIT1;              // P1.3 IFG cleared
-						  //P1IES ^= BIT3;         			// toggle the interrupt edge,
-						  count = 0;
+						TA1CTL = TASSEL_2 + MC_1 + TACLR + ID_3;
+						P1IFG &= ~BIT1;              // P1.3 IFG cleared
+						//P1IES ^= BIT3;         			// toggle the interrupt edge,
+						count = 0;
 					break;
 				}
 				//TA1CCR1 = ( 1000 * (D/1000) );

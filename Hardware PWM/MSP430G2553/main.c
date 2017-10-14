@@ -9,7 +9,7 @@ int main(void) {
     P1OUT |= BIT3; 
     P1SEL |= BIT2;
     TA0CCR0 = 1000; //PWM period
-    TA0CCTL1 = OUTMOD_7;
+    TA0CCTL1 = OUTMOD_7; //CCR1 set/reset
     TA0CCR1 = 500; //PWM starting duty cycle. TA0CCR1 / TA0CCR0 = 0.5 = 50% duty cycle
     TA0CTL = TASSEL_2 + MC_1; //up-counter mode.
 
@@ -20,7 +20,7 @@ int main(void) {
             TA0CCR1 = TA0CCR1 + 100; //Increment the PWM period
         } 
         if (TA0CCR1 > 1000) { //after brightness reaches 100%, reset to 0%
-            TA0CCR1 = 0; 
+            TA0CCR1 = 0; //restart LED to 0% instead of the default 50%
         } 
     }
 }
